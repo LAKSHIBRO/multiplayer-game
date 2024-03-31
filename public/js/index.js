@@ -14,6 +14,7 @@ const x = canvas.width / 2
 const y = canvas.height / 2
 
 const frontEndPlayers = {}
+const frontEndProjectiles = []
 
 socket.on('updatePlayers', (backEndPlayers) => {
   for (const id in backEndPlayers) {
@@ -45,6 +46,13 @@ socket.on('updatePlayers', (backEndPlayers) => {
       }else{
         frontEndPlayers[id].x = backEndPlayer.x
         frontEndPlayers[id].y = backEndPlayer.y
+
+        gsap.to(frontEndPlayers[id], {
+          x: backEndPlayer.x,
+          y: backEndPlayer.y,
+          duration: 0.015,
+          ease: 'none'
+        })
       }
     }
   }
@@ -67,6 +75,13 @@ function animate() {
   for (const id in frontEndPlayers) {
     frontEndPlayers[id].draw()
   } 
+
+  for (let i = frontEndProjectiles.length - 1; i >= 0; i--) {
+    
+    const frontEndProjectile = frontEndProjectiles[i]
+    frontEndProjectile.update()
+    
+  }
 
 }
 
