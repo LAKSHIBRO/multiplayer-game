@@ -33,6 +33,10 @@ io.on('connection', (socket) => {
 
   io.emit('updatePlayers', backEndPlayers)
 
+  socket.on('initcanvas', ({width, height}) => {
+    back
+  })
+
 
   socket.on('shoot', ({x, y , angle})=>{
     projectileId++;
@@ -48,6 +52,8 @@ io.on('connection', (socket) => {
       playerId: socket.id
     }
   })
+
+  console.log(backEndProjectiles);
 
 
   socket.on('disconnect', (reason) => {
@@ -77,7 +83,14 @@ io.on('connection', (socket) => {
   console.log(backEndPlayers);
 });
 
+//backend ticker
 setInterval(() => {
+  //update projectile position
+  for (const id in backEndProjectiles) {
+    backEndProjectiles[id].x += backEndProjectiles[id].velocity.x
+    backEndProjectiles[id].y += backEndProjectiles[id].velocity.y
+  }
+  io.emit('updateProjectiles', backEndProjectiles)
   io.emit('updatePlayers', backEndPlayers)
 }, 15);
 

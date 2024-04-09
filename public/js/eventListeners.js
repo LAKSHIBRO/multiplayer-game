@@ -14,7 +14,7 @@ addEventListener('click', (event) => {
   //   y: Math.sin(angle) * 5
   // }
 
-  socket.emit('click', {
+  socket.emit('shoot', {
     x: playerPosition.x,
     y: playerPosition.y,
     angle
